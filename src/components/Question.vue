@@ -13,7 +13,7 @@
                 </pagination>
                 <div class="my-5">
                     <a @click="nextQuestion('DECREMENT')" class="cursor-pointer px-5 py-3 bg-blue-400 mr-4 text-white">Previous</a>
-                    <a @click="submitAnswers" class="cursor-pointer px-5 py-3 bg-blue-400 text-white" v-if="current === (questions.length -1)">Submit</a>
+                    <a @click="submitAnswers" class="cursor-pointer px-5 py-3 bg-green-400 text-white" v-if="current === (questions.length -1)">Submit</a>
                     <a @click="nextQuestion('INCREMENT')" class="cursor-pointer px-5 py-3 bg-blue-400 text-white" v-else>Next</a>
                 </div>
             </div>
