@@ -1,19 +1,25 @@
 <template>
   <div class="w-full">
     <div class="question flex flex-col items-center mt-8 py-5 px-3 container mx-auto">
-      <div
-        class="w-2/4 flex flex-col items-center mx-auto bg-white shadow-lg rounded-lg py-10 px-4"
-      >
-        <p class="text-center text-2xl text-purple-500 blink">Fetching Questions...</p>
+      <div class="w-2/4 flex flex-col items-center mx-auto bg-white shadow-lg rounded-lg py-8 px-8">
+        <p
+          v-if="!questionsLoaded"
+          class="text-center text-2xl text-purple-500 blink"
+        >Fetching Questions...</p>
         <pagination v-if="questionsLoaded" :current="current">
           <div :slot="'p' + (index + 1)" v-for="(question, index) in questions" :key="index">
-            <p class="py-3">{{ question.question }}</p>
+            <span class="text-sm">QUESTION</span>
+            <p class="py-3 text-2xl">{{ question.question }}</p>
             <options
               class="cursor-pointer"
               @choice="(optionIdx) => pickedAnswer(optionIdx, question.id)"
               :correct="question.isCorrect"
               :options="question.options"
             />
+            <div
+              v-if="answers[question.id] !== undefined"
+              class="text-sm text-center tracking-widest text-blue-500 border block mx-auto w-auto p-3"
+            >ANSWERED</div>
           </div>
         </pagination>
       </div>
@@ -22,8 +28,8 @@
         <a @click="nextQuestion('DECREMENT')">
           <Button color="white">Previous</Button>
         </a>
-        <Button v-if="current === questions.length - 1" @click="submitAnswers">Submit</Button>
-        <Button @click="nextQuestion('INCREMENT')" v-else>Next</Button>
+        <Button v-if="current === questions.length - 1" @click="submitAnswers">FINISH</Button>
+        <Button v-else @click="nextQuestion('INCREMENT')">Next</Button>
       </div>
     </div>
   </div>
@@ -55,13 +61,14 @@ export default {
   },
   methods: {
     nextQuestion(type) {
+      console.log("move ");
       if (type === "INCREMENT")
         if (this.current < this.questions.length) this.current += 1;
 
       if (type === "DECREMENT") if (this.current !== 0) this.current -= 1;
     },
     pickedAnswer(e, question_id) {
-      this.answers[question_id] = e;
+      this.$set(this.answers, question_id, e);
     },
     mapQA() {
       return this.answers;
