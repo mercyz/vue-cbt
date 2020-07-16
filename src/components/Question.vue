@@ -1,14 +1,22 @@
 <template>
   <div class="w-full">
     <div class="question flex flex-col items-center mt-8 py-5 px-3 container mx-auto">
-      <div class="w-2/4 flex flex-col items-center mx-auto bg-white shadow-lg rounded-lg py-8 px-8">
+      <div class="w-2/4 flex flex-col items-center mx-auto bg-white shadow-lg rounded-lg">
         <p
           v-if="!questionsLoaded"
-          class="text-center text-2xl text-purple-500 blink"
+          class="text-center text-2xl text-purple-500 blink p-8"
         >Fetching Questions...</p>
         <pagination v-if="questionsLoaded" :current="current">
-          <div :slot="'p' + (index + 1)" v-for="(question, index) in questions" :key="index">
-            <span class="text-sm">QUESTION</span>
+          <div
+            :slot="'p' + (index + 1)"
+            v-for="(question, index) in questions"
+            :key="index"
+            class="p-8"
+          >
+            <div class="flex justify-between">
+              <span class="text-sm">QUESTION</span>
+              <span class="text-sm opacity-50">{{ index + 1 }} of {{ questions.length }}</span>
+            </div>
             <p class="py-3 text-2xl">{{ question.question }}</p>
             <options
               class="cursor-pointer"
@@ -26,10 +34,17 @@
 
       <div class="my-5" v-if="questionsLoaded">
         <a @click="nextQuestion('DECREMENT')">
-          <Button color="white">Previous</Button>
+          <Button
+            :disabled="isFirstPage"
+            :class="{'opacity-50': isFirstPage }"
+            color="white"
+          >Previous</Button>
         </a>
-        <Button v-if="current === questions.length - 1" @click="submitAnswers">FINISH</Button>
-        <Button v-else @click="nextQuestion('INCREMENT')">Next</Button>
+        <Button
+          :disabled="isLastPage"
+          :class="{'opacity-50': isLastPage }"
+          @click="nextQuestion('INCREMENT')"
+        >Next</Button>
       </div>
     </div>
   </div>
@@ -54,6 +69,10 @@ export default {
     current: 0,
     answers: {}
   }),
+  computed: {
+    isFirstPage: vm => vm.current == 0,
+    isLastPage: vm => vm.current === vm.questions.length - 1
+  },
   async created() {
     const questions = await getQuestionsBySubjectId("oesluxd3XS5J6PCKFvAk");
     this.questions = questions;
@@ -61,7 +80,6 @@ export default {
   },
   methods: {
     nextQuestion(type) {
-      console.log("move ");
       if (type === "INCREMENT")
         if (this.current < this.questions.length) this.current += 1;
 
