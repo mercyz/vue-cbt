@@ -4,12 +4,14 @@
             <a href="#">Brainicas</a>
         </div>
         <div>
-            <span>00:30:01</span>
+            <Timer/>
         </div>
     </div>
 </template>
 <script>
+import Timer from "./Timer";
 export default {
     name: "NavigationBar",
+    components:{Timer},
 }
 </script>
