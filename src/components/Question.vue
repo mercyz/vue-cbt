@@ -28,10 +28,29 @@
         <a @click="nextQuestion('DECREMENT')">
           <Button color="white">Previous</Button>
         </a>
-        <Button v-if="current === questions.length - 1" @click="submitAnswers">FINISH</Button>
+        <Button v-if="current === questions.length - 1" @click="confirmSubmit">FINISH</Button>
         <Button v-else @click="nextQuestion('INCREMENT')">Next</Button>
       </div>
     </div>
+  <div class="modal" v-if="showModal">
+      <div class="modal__overlay" @click="closeModal()">
+        <div class="modal__container">
+          <div class="modal__body">
+            <h3 class="text-5xl font-bold">Congratulations!</h3>
+            <p class="my-4">Hello! Username</p>
+            <p>
+              You've come to the final part of the test.<br/>
+              Are you sure you want to submit? 
+            </p>
+            <div class="modal__footer flex  justify-between my-5 w-2/4">
+             <!-- <button class="py-3 px-5 bg-pink-500 text-white">Cancel</button>  -->
+             <button class="py-3 px-5 bg-green-500 text-white rounded cursor-pointer" @click="submitAnswers()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
   </div>
 </template>
 
@@ -52,7 +71,8 @@ export default {
     questions: [],
     questionsLoaded: false,
     current: 0,
-    answers: {}
+    answers: {},
+    showModal: false,
   }),
   async created() {
     const questions = await getQuestionsBySubjectId("oesluxd3XS5J6PCKFvAk");
@@ -75,6 +95,7 @@ export default {
     },
     submitAnswers() {
       // console.log(this.answers)
+      this.showModal = false;
       let data = {
         category: "First2020",
         subject_id: "348945",
@@ -95,6 +116,12 @@ export default {
       }
 
       return points;
+    },
+    confirmSubmit(){
+      this.showModal = true;
+    },
+    closeModal(){
+      this.showModal = false;
     }
   }
 };
@@ -113,4 +140,45 @@ export default {
     opacity: 1;
   }
 }
+.modal{
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
+}
+.modal__overlay{
+  background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+}
+.modal__container{
+    background-color: #ffffff;
+    position: relative;
+    width: 600px;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    z-index: 2;
+  }
+  @media screen and (max-width: 992px) {
+    .modal__container{
+      width: 90%;
+    }
+  }
+  .modal__body{
+    padding: 10px 20px 10px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
 </style>
