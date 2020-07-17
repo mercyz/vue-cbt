@@ -45,25 +45,20 @@
           :class="{'opacity-50': isLastPage }"
           @click="nextQuestion('INCREMENT')"
         >Next</Button>
-        <Button :class="{'opacity-100': isLastPage, 'opacity-50': isFirstPage}"  @click="confirmSubmit">FINISH</Button>
+        <!-- <Button :class="{'opacity-100': isLastPage, 'opacity-50': isFirstPage}"  @click="confirmSubmit">FINISH</Button> -->
       </div>
     </div>
   <div class="modal" v-if="showModal">
       <div class="modal__overlay" @click="closeModal()">
-        <div class="modal__container text-center">
-          <div class="modal__body">
-            <h3 class="text-5xl font-bold">Congratulations!</h3>
-            <p class="my-4">Hello! Username</p>
-            <p>
-              You've come to the final part of the test.<br/>
-              Are you sure you want to submit? 
-            </p>
-            <div class="modal__footer flex  justify-between mx-auto my-5 item-center">
-             <!-- <button class="py-3 px-5 bg-pink-500 text-white">Cancel</button>  -->
-             <button class="py-3 px-5 bg-green-500 text-white rounded cursor-pointer" @click="submitAnswers()">Submit</button>
+            <div class="bg-white shadow-xl p-4 mx-auto w-1/3 mt-20 rounded-lg text-center">
+              <h3 class="text-3xl text-purple-500">Are you sure ?</h3>
+              <p class="mt-5 mb-16 text-lg max-w-sm mx-auto opacity-75">
+                By clicking Yes you agree that you have done and ready to submit
+                your work
+              </p>
+              <Button @click="submitAnswers">YES, Submit</Button>
+              <Button color="white">NO</Button>
             </div>
-          </div>
-        </div>
       </div>
   </div>
 
@@ -124,6 +119,7 @@ export default {
       };
 
       saveScoresForStudent(data);
+      this.$router.replace({ name: "Finished" });
     },
     calculateFinalScore() {
       let points = 0;
@@ -178,26 +174,4 @@ export default {
     left: 0;
     z-index: 1;
 }
-.modal__container{
-    background-color: #ffffff;
-    position: relative;
-    width: 600px;
-    margin: 50px auto;
-    display: flex;
-    flex-direction: column;
-    border-radius: 5px;
-    z-index: 2;
-  }
-  @media screen and (max-width: 992px) {
-    .modal__container{
-      width: 90%;
-    }
-  }
-  .modal__body{
-    padding: 10px 20px 10px;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
 </style>

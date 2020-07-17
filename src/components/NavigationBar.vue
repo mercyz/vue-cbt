@@ -5,7 +5,7 @@
     </div>
     <div class="flex items-center">
       <Timer class="mx-3" />
-      <Button color="white" @click="endTest">SUBMIT</Button>
+      <Button color="white" @click="confirmSubmit">SUBMIT</Button>
     </div>
   </div>
 </template>
@@ -18,8 +18,8 @@ export default {
   name: "NavigationBar",
   components: { Button, Timer },
   methods: {
-    endTest() {
-      this.$router.replace({ name: "Finished" });
+    confirmSubmit() {
+    //  this.$emit
     }
   }
 };

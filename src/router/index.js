@@ -2,14 +2,15 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import EndTest from "../views/EndTest.vue";
 import Question from "../components/Question.vue";
+import Welcome from "../components/Welcome.vue";
 Vue.use(VueRouter);
 
 let routes = [
   {
     path: "/",
-    component: require("../components/Authentication/Login.vue"),
-    name: "Login",
-    meta: { title: "Login" },
+    component: Welcome,
+    name: "Welcome",
+    meta: { title: "Welcome" },
   },
   {
     path: "/question",
