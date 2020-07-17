@@ -1,25 +1,24 @@
 <template>
   <div id="app">
-    <navigation-bar/>
-    <router-view></router-view>
-    <question />
+    <navigation-bar />
+    <div>
+      <router-view name="default"></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-// import  Login from './components/Authentication/Login.vue';
-import  NavigationBar from './components/NavigationBar.vue';
-import  Question from './components/Question.vue';
+import NavigationBar from "./components/NavigationBar.vue";
 
 export default {
-  name: 'App',
-  components: { Question, NavigationBar }
-}
+  name: "App",
+  components: { NavigationBar }
+};
 </script>
 
 <style>
-  body{
-    background: whitesmoke;
-  }
+body {
+  background: whitesmoke;
+}
 </style>
 
